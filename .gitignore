@@ -1,0 +1,24 @@
+# Build output (any CMake build directory)
+/build*/
+/cmake-build-*/
+*.o
+*.a
+
+# Native library built into the Python package directory
+/catchup/libcatchup.dylib
+/catchup/libcatchup.so
+/catchup/*.dll
+
+# Python
+__pycache__/
+*.pyc
+.venv*/
+venv/
+
+# Game logs written by the GUI/console front-end (catchup/record.py)
+/games/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/

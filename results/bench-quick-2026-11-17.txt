@@ -1,0 +1,46 @@
+# catchup-bench --quick, single run, 2026-11-17
+# Machine: Intel(R) Core(TM) i5-5350U CPU @ 1.80GHz, 2 cores / 4 threads, macOS 12.7.6
+# Build: Release (CMake 4.4.5, Apple clang 14.0.0), command: ./build/catchup-bench --quick
+# Time-limited searches: numbers vary between runs and machines.
+# CAUTION: load average was not recorded; other jobs were running in parallel. Node rates here are
+# about 3x lower than the 2026-11-18 runs on the same machine at load ~2.3, so treat this run as
+# unreliable. Code: before the Phase 2 TT-symmetry fix.
+
+== nodes / second ==
+  opening   empty=61  depth=5    88064 nodes in  0.70s   125266 n/s  E5
+  early     empty=48  depth=2    16384 nodes in  0.66s    24931 n/s  C4 E6
+  midgame   empty=33  depth=3    51256 nodes in  0.59s    87520 n/s  E5 F7 H9
+  late      empty=13  depth=1    27496 nodes in  0.36s    75880 n/s  D3 C5 C6
+
+== depth reached by phase (0.8s / position) ==
+  opening   depths [5, 5, 5, 5]   mean 5.0   mean nodes 169984
+  early     depths [3, 4, 3, 4]   mean 3.5   mean nodes 133120
+  midgame   depths [2, 3, 3, 4]   mean 3.0   mean nodes 124928
+  late      depths [1, 1, 2, 2]   mean 1.5   mean nodes 56095
+
+== enhancement cost on a mid-game position (0.6s) ==
+  full              depth 3   118784 nodes   196558 n/s  value +374
+  no TT             depth 3    98304 nodes   163511 n/s  value +374
+  no PVS            depth 3   112640 nodes   187336 n/s  value +374
+  no killers        depth 3   112640 nodes   185008 n/s  value +374
+  no history        depth 3   116736 nodes   192346 n/s  value +374
+  no aspiration     depth 3   118784 nodes   194988 n/s  value +374
+  no LMR            depth 3    81920 nodes   135232 n/s  value +374
+  tempo=40          depth 3    90112 nodes   150118 n/s  value +374
+  plain alpha-beta  depth 3    96256 nodes   160074 n/s  value +374
+
+== TT size on a mid-game position (0.6s) ==
+  bits=18  depth 2    92160 nodes   150744 n/s  value +17  tt 14481/92737 cut 13025
+  bits=20  depth 2    86016 nodes   142390 n/s  value +17  tt 12948/86600 cut 11502
+  bits=21  depth 2    94208 nodes   153950 n/s  value +17  tt 15044/94782 cut 13584
+
+== A/B self-play (0.15s / turn, 2 games / pairing) ==
+  full vs no TT           A 1  draw 0  B 1
+  full vs no PVS          A 1  draw 0  B 1
+  full vs no killers      A 1  draw 0  B 1
+  full vs no history      A 1  draw 0  B 1
+  full vs no aspiration   A 1  draw 0  B 1
+  full vs no LMR          A 1  draw 0  B 1
+  full vs tempo=40        A 1  draw 0  B 1
+
+finished in 68.4s  (board has 61 cells)

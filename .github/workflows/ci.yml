@@ -1,0 +1,35 @@
+# NOTE: this workflow has not been run yet (prepared offline). The same
+# commands were run locally on macOS with Apple clang 14 / CMake 4.4.
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Configure (Release)
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCATCHUP_LIB_IN_PACKAGE=OFF
+      - name: Build
+        run: cmake --build build -j2
+      - name: C++ and Python tests
+        run: ctest --test-dir build --output-on-failure
+
+  sanitizers:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # RelWithDebInfo, not Debug: several C++ tests are time-limited and the
+      # Debug build (sanity_check() after every move) is too slow under ASan.
+      - name: Configure (RelWithDebInfo + ASan/UBSan)
+        run: cmake -S . -B build-asan -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCATCHUP_SANITIZE=ON -DCATCHUP_LIB_IN_PACKAGE=OFF
+      - name: Build
+        run: cmake --build build-asan -j2
+      - name: C++ tests under sanitizers
+        run: ctest --test-dir build-asan --output-on-failure
